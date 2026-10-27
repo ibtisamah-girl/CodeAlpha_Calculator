@@ -1,0 +1,831 @@
+/* =========================
+   RESET
+========================= */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+/* =========================
+   LIGHT THEME
+========================= */
+
+:root {
+    --page-bg: #eef0f5;
+    --calculator-bg: #ffffff;
+
+    --display-text: #111111;
+    --display-muted: #8e8e93;
+
+    --number-bg: #e4e5e9;
+    --number-hover: #d4d5da;
+
+    --function-bg: #cfd0d5;
+    --function-hover: #bdbec4;
+    --function-text: #111111;
+
+    --operator-bg: #8b5cf6;
+    --operator-hover: #7442df;
+
+    --mode-bg: #e4e5e9;
+    --mode-active: #111111;
+    --mode-active-text: #ffffff;
+
+    --text: #111111;
+
+    --shadow: rgba(0, 0, 0, 0.16);
+}
+
+
+/* =========================
+   DARK THEME
+========================= */
+
+body.dark-mode {
+    --page-bg: #111113;
+    --calculator-bg: #19191c;
+
+    --display-text: #ffffff;
+    --display-muted: #8e8e93;
+
+    --number-bg: #343438;
+    --number-hover: #47474c;
+
+    --function-bg: #a6a6aa;
+    --function-hover: #bdbdc1;
+    --function-text: #111111;
+
+    --operator-bg: #9b6cff;
+    --operator-hover: #ad85ff;
+
+    --mode-bg: #303034;
+    --mode-active: #ffffff;
+    --mode-active-text: #111111;
+
+    --text: #ffffff;
+
+    --shadow: rgba(0, 0, 0, 0.45);
+}
+
+
+/* =========================
+   BODY
+========================= */
+
+body {
+    min-height: 100vh;
+
+    background: var(--page-bg);
+    color: var(--text);
+
+    font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        sans-serif;
+
+    transition:
+        background 0.3s ease,
+        color 0.3s ease;
+}
+
+
+/* =========================
+   PAGE
+========================= */
+
+.calculator-page {
+    min-height: 100vh;
+
+    display: flex;
+    flex-direction: column;
+
+    justify-content: center;
+    align-items: center;
+
+    padding: 30px 20px;
+}
+
+
+/* =========================
+   CALCULATOR
+========================= */
+
+.calculator {
+    width: 100%;
+    max-width: 400px;
+
+    padding: 20px;
+
+    background: var(--calculator-bg);
+
+    border-radius: 35px;
+
+    box-shadow:
+        0 25px 60px var(--shadow);
+
+    transition:
+        background 0.3s ease,
+        box-shadow 0.3s ease;
+}
+
+
+/* =========================
+   HEADER
+========================= */
+
+.calculator-header {
+    display: flex;
+
+    align-items: center;
+    justify-content: space-between;
+
+    margin-bottom: 14px;
+}
+
+
+.calculator-label {
+    color: var(--text);
+
+    font-size: 0.85rem;
+    font-weight: 700;
+
+    letter-spacing: 0.18em;
+}
+/* =========================
+   HISTORY
+========================= */
+
+.header-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+
+.history-toggle {
+    width: 38px;
+    height: 38px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border: none;
+    border-radius: 50%;
+
+    background: var(--number-bg);
+    color: var(--text);
+
+    font-size: 0.95rem;
+
+    cursor: pointer;
+
+    transition:
+        background 0.2s ease,
+        transform 0.2s ease;
+}
+
+
+.history-toggle:hover {
+    background: var(--number-hover);
+
+    transform: rotate(-10deg);
+}
+
+
+.history-toggle:active {
+    transform: scale(0.9);
+}
+
+
+/* =========================
+   HISTORY PANEL
+========================= */
+
+.history-panel {
+    display: none;
+
+    margin-bottom: 10px;
+
+    padding: 14px;
+
+    background: var(--mode-bg);
+
+    border-radius: 18px;
+
+    animation: historyAppear 0.25s ease;
+}
+
+
+.history-panel.show {
+    display: block;
+}
+
+
+@keyframes historyAppear {
+
+    from {
+        opacity: 0;
+        transform: translateY(-8px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+}
+
+
+/* =========================
+   HISTORY HEADER
+========================= */
+
+.history-header {
+    display: flex;
+
+    align-items: center;
+    justify-content: space-between;
+
+    margin-bottom: 10px;
+
+    color: var(--text);
+
+    font-size: 0.8rem;
+    font-weight: 700;
+}
+
+
+.clear-history {
+    border: none;
+
+    background: transparent;
+
+    color: var(--operator-bg);
+
+    font-size: 0.72rem;
+    font-weight: 600;
+
+    cursor: pointer;
+}
+
+
+.clear-history:hover {
+    text-decoration: underline;
+}
+
+
+/* =========================
+   HISTORY LIST
+========================= */
+
+.history-list {
+    max-height: 150px;
+
+    overflow-y: auto;
+
+    display: flex;
+    flex-direction: column;
+
+    gap: 7px;
+}
+
+
+/* Scrollbar */
+
+.history-list::-webkit-scrollbar {
+    width: 4px;
+}
+
+
+.history-list::-webkit-scrollbar-thumb {
+    background: var(--display-muted);
+
+    border-radius: 10px;
+}
+
+
+/* =========================
+   EMPTY HISTORY
+========================= */
+
+.empty-history {
+    padding: 10px 0;
+
+    color: var(--display-muted);
+
+    font-size: 0.75rem;
+
+    text-align: center;
+}
+
+
+/* =========================
+   HISTORY ITEM
+========================= */
+
+.history-item {
+    padding: 9px 10px;
+
+    border-radius: 12px;
+
+    background: var(--calculator-bg);
+
+    cursor: pointer;
+
+    transition:
+        background 0.2s ease,
+        transform 0.15s ease;
+}
+
+
+.history-item:hover {
+    background: var(--number-hover);
+
+    transform: translateX(2px);
+}
+
+
+.history-expression {
+    color: var(--display-muted);
+
+    font-size: 0.72rem;
+
+    margin-bottom: 2px;
+}
+
+
+.history-result {
+    color: var(--text);
+
+    font-size: 0.9rem;
+
+    font-weight: 600;
+}
+
+
+/* =========================
+   THEME TOGGLE
+========================= */
+
+.theme-toggle {
+    width: 38px;
+    height: 38px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border: none;
+    border-radius: 50%;
+
+    background: var(--number-bg);
+    color: var(--text);
+
+    font-size: 1rem;
+
+    cursor: pointer;
+
+    transition:
+        background 0.2s ease,
+        transform 0.2s ease;
+}
+
+
+.theme-toggle:hover {
+    background: var(--number-hover);
+
+    transform: rotate(15deg);
+}
+
+
+.theme-toggle:active {
+    transform: scale(0.9);
+}
+
+
+/* =========================
+   BASIC / SCIENTIFIC SWITCH
+========================= */
+
+.mode-switch {
+    width: 100%;
+
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+
+    gap: 4px;
+
+    padding: 4px;
+    margin-bottom: 5px;
+
+    background: var(--mode-bg);
+
+    border-radius: 14px;
+}
+
+
+.mode-button {
+    border: none;
+
+    padding: 9px 10px;
+
+    border-radius: 10px;
+
+    background: transparent;
+    color: var(--text);
+
+    font-size: 0.8rem;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition:
+        background 0.25s ease,
+        color 0.25s ease,
+        transform 0.15s ease;
+}
+
+
+.mode-button:hover {
+    transform: scale(0.98);
+}
+
+
+.mode-button:active {
+    transform: scale(0.95);
+}
+
+
+.mode-button.active {
+    background: var(--mode-active);
+    color: var(--mode-active-text);
+
+    box-shadow:
+        0 2px 7px rgba(0, 0, 0, 0.12);
+}
+
+
+/* =========================
+   DISPLAY
+========================= */
+
+.display {
+    min-height: 145px;
+
+    padding: 15px 10px 20px;
+
+    display: flex;
+    flex-direction: column;
+
+    justify-content: flex-end;
+    align-items: flex-end;
+
+    overflow: hidden;
+}
+
+
+.previous-value {
+    width: 100%;
+
+    min-height: 25px;
+
+    text-align: right;
+
+    color: var(--display-muted);
+
+    font-size: 1rem;
+
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+
+.current-value {
+    width: 100%;
+
+    text-align: right;
+
+    color: var(--display-text);
+
+    font-size: 3.8rem;
+    font-weight: 300;
+
+    letter-spacing: -0.05em;
+
+    overflow: hidden;
+    white-space: nowrap;
+
+    transition: color 0.2s ease;
+}
+
+
+/* =========================
+   SCIENTIFIC BUTTONS
+========================= */
+
+.scientific-buttons {
+    display: none;
+
+    grid-template-columns: repeat(4, 1fr);
+
+    gap: 8px;
+
+    margin-bottom: 10px;
+
+    opacity: 0;
+    transform: translateY(-10px);
+}
+
+
+.scientific-buttons.show {
+    display: grid;
+
+    animation: scientificAppear 0.3s ease forwards;
+}
+
+
+@keyframes scientificAppear {
+
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+}
+
+
+.scientific-buttons .button {
+    aspect-ratio: 1.5 / 1;
+
+    border-radius: 16px;
+
+    font-size: 0.9rem;
+}
+
+
+/* =========================
+   MAIN BUTTON GRID
+========================= */
+
+.calculator-buttons {
+    display: grid;
+
+    grid-template-columns: repeat(4, 1fr);
+
+    gap: 10px;
+}
+
+
+/* =========================
+   ALL BUTTONS
+========================= */
+
+.button {
+    aspect-ratio: 1 / 1;
+
+    border: none;
+
+    border-radius: 50%;
+
+    background: var(--number-bg);
+    color: var(--text);
+
+    font-size: 1.45rem;
+    font-weight: 400;
+
+    cursor: pointer;
+
+    transition:
+        background 0.15s ease,
+        transform 0.1s ease,
+        box-shadow 0.15s ease;
+}
+
+
+.button:hover {
+    background: var(--number-hover);
+
+    box-shadow:
+        0 4px 10px rgba(0, 0, 0, 0.08);
+}
+
+
+.button:active {
+    transform: scale(0.91);
+}
+
+
+/* =========================
+   FUNCTION BUTTONS
+========================= */
+
+.button.function {
+    background: var(--function-bg);
+    color: var(--function-text);
+
+    font-size: 0.95rem;
+    font-weight: 500;
+}
+
+
+.button.function:hover {
+    background: var(--function-hover);
+}
+
+
+/* =========================
+   OPERATORS
+========================= */
+
+.button.operator {
+    background: var(--operator-bg);
+    color: #ffffff;
+
+    font-size: 1.55rem;
+}
+
+
+.button.operator:hover {
+    background: var(--operator-hover);
+
+    box-shadow:
+        0 5px 15px rgba(139, 92, 246, 0.3);
+}
+
+
+/* =========================
+   EQUALS
+========================= */
+
+.button.equals {
+    background: var(--operator-bg);
+    color: #ffffff;
+
+    font-size: 1.55rem;
+}
+
+
+.button.equals:hover {
+    background: var(--operator-hover);
+
+    box-shadow:
+        0 5px 15px rgba(139, 92, 246, 0.3);
+}
+
+
+/* =========================
+   ZERO
+========================= */
+
+.button.zero {
+    grid-column: span 2;
+
+    aspect-ratio: auto;
+
+    border-radius: 50px;
+
+    text-align: left;
+
+    padding-left: 25px;
+}
+
+
+/* =========================
+   FOOTER NOTE
+========================= */
+
+.page-note {
+    margin-top: 20px;
+
+    color: #777777;
+
+    font-size: 0.75rem;
+
+    text-align: center;
+
+    letter-spacing: 0.03em;
+}
+
+
+body.dark-mode .page-note {
+    color: #8e8e93;
+}
+
+
+/* =========================
+   MOBILE
+========================= */
+
+@media (max-width: 480px) {
+
+    .calculator-page {
+        padding: 15px;
+    }
+
+
+    .calculator {
+        max-width: 370px;
+
+        padding: 18px;
+
+        border-radius: 30px;
+    }
+
+
+    .display {
+        min-height: 135px;
+    }
+
+
+    .current-value {
+        font-size: 3.3rem;
+    }
+
+
+    .scientific-buttons {
+        gap: 7px;
+    }
+
+
+    .scientific-buttons .button {
+        font-size: 0.82rem;
+
+        border-radius: 14px;
+    }
+
+
+    .calculator-buttons {
+        gap: 8px;
+    }
+
+
+    .button {
+        font-size: 1.3rem;
+    }
+
+
+    .button.operator,
+    .button.equals {
+        font-size: 1.4rem;
+    }
+
+}
+
+
+/* =========================
+   VERY SMALL SCREENS
+========================= */
+
+@media (max-width: 350px) {
+
+    .calculator {
+        padding: 15px;
+
+        border-radius: 25px;
+    }
+
+
+    .mode-button {
+        font-size: 0.7rem;
+
+        padding: 8px 5px;
+    }
+
+
+    .scientific-buttons {
+        gap: 5px;
+    }
+
+
+    .scientific-buttons .button {
+        font-size: 0.72rem;
+
+        border-radius: 12px;
+    }
+
+
+    .calculator-buttons {
+        gap: 6px;
+    }
+
+
+    .current-value {
+        font-size: 2.8rem;
+    }
+
+
+    .button {
+        font-size: 1.15rem;
+    }
+
+}
